@@ -48,7 +48,11 @@ switch( strtoupper($_SERVER['REQUEST_METHOD']) ){
             }
         }
     case 'POST':
-        break;
+        $json = file_get_contents('php://input');
+
+        $books[] = json_decode( $json, true );
+
+        echo array_keys( $books )[ count($books) - 1 ];
     case 'PUT':
         break;
     case 'DELETE':
