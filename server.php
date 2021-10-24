@@ -52,7 +52,8 @@ switch( strtoupper($_SERVER['REQUEST_METHOD']) ){
 
         $books[] = json_decode( $json, true );
 
-        echo array_keys( $books )[ count($books) - 1 ];
+        // echo array_keys( $books )[ count($books) - 1 ];
+        echo json_encode( $books );
     case 'PUT':
         break;
     case 'DELETE':
