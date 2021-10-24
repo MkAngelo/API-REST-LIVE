@@ -1,5 +1,15 @@
 <?php
 
+// $user = array_key_exists( 'PHP_AUTH_USER', $_SERVER ) ? $_SERVER['$PHP_AUTH_USER'] : '';
+// $pwd = array_key_exists( 'PHP_AUTH_PW', $_SERVER ) ? $_SERVER['$PHP_AUTH_PW'] : '';
+
+$user = array_key_exists('PHP_AUTH_USER', $_SERVER ) ?  $_SERVER['PHP_AUTH_USER'] : '';
+$pass= array_key_exists('PHP_AUTH_PW', $_SERVER ) ?  $_SERVER['PHP_AUTH_PW'] : '';
+
+if ( $user !== 'mike' || $pass !== '1234' ){
+    die;
+}
+
 // Definimos los recursos disponibles
 $allowedResourceTypes = [
     'books',
@@ -47,6 +57,7 @@ switch( strtoupper($_SERVER['REQUEST_METHOD']) ){
                 echo json_encode( $books[ $resourceId ]);
             }
         }
+        break;
     case 'POST':
         // Tomamon la entrada "cruda"
         $json = file_get_contents('php://input');
@@ -57,6 +68,7 @@ switch( strtoupper($_SERVER['REQUEST_METHOD']) ){
         // Emitimos hacia la ultima salida la clave del arreglo
         // echo array_keys( $books )[ count($books) - 1 ];
         echo json_encode( $books );
+        break;
     case 'PUT':
         // Validamos que el recurso buscado exista
         if ( !empty($resourceId) && array_key_exists( $resourceId, $books ) ){
@@ -69,6 +81,7 @@ switch( strtoupper($_SERVER['REQUEST_METHOD']) ){
             // Retornamos la coleccion completa
             echo json_encode( $books );
         }
+        break;
     case 'DELETE':
         // Validamos que el recurso exista
         if ( !empty($resourceId) && array_key_exists( $resourceId, $books ) ){
@@ -78,4 +91,5 @@ switch( strtoupper($_SERVER['REQUEST_METHOD']) ){
 
         // Retornamos la coleccion 
         echo json_encode( $books );
+        break;
 }
