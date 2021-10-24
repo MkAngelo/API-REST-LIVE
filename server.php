@@ -48,14 +48,27 @@ switch( strtoupper($_SERVER['REQUEST_METHOD']) ){
             }
         }
     case 'POST':
+        // Tomamon la entrada "cruda"
         $json = file_get_contents('php://input');
 
+        // Transformamos el JSON recibido a un nuevo elemento del array
         $books[] = json_decode( $json, true );
 
+        // Emitimos hacia la ultima salida la clave del arreglo
         // echo array_keys( $books )[ count($books) - 1 ];
         echo json_encode( $books );
     case 'PUT':
-        break;
+        // Validamos que el recurso buscado exista
+        if ( !empty($resourceId) && array_key_exists( $resourceId, $books ) ){
+            // Tomamos la entrada "cruda"
+            $json = file_get_contents('php://input');
+            
+            // El JSON se convierte a un nuevo elemento de "books"
+            $books[ $resourceId ] = json_decode( $json, true );
+
+            // Retornamos la coleccion completa
+            echo json_encode( $books );
+        }
     case 'DELETE':
         break;  
 }
